@@ -25,7 +25,7 @@ const PASSCODE = "200408";
  * ضع ملف الفيديو بهذا الاسم داخل مجلد videos لتغيير الفيديو.
  * Replace the file inside the videos/ folder with the same name to swap the video.
  */
-const videoUrl = "video.mp4";
+const videoUrl = "videos.mp4";
 
 // ==========================================================================
 // ربط عناصر الواجهة | DOM Element References
