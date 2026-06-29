@@ -25,7 +25,7 @@ const PASSCODE = "200408";
  * ضع ملف الفيديو بهذا الاسم داخل مجلد videos لتغيير الفيديو.
  * Replace the file inside the videos/ folder with the same name to swap the video.
  */
-const videoUrl = "fullscreen-video-landing\videos\يا عنيده ..__ناصر_الوبير _nasser_alwobair__.__. __شعر _شعر_شعبي _قصائد _قصيده _قصايد(MP4)";
+const videoUrl = "vidro.mp4eos/int";
 
 // ==========================================================================
 // ربط عناصر الواجهة | DOM Element References
