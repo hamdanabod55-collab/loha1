@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER LIVE - تجربة بصرية فائقة</title>
+    
+    <!-- Google Fonts: Cairo for messages and Plus Jakarta Sans for the keypad -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="no-scroll">
+
+    <!-- شاشة التحميل السوداء المبدئية (Black Loading Screen) -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loader-content">
+            <div class="loader-ring"></div>
+        </div>
+    </div>
+
+    <!-- شاشة إدخال رمز المرور الزجاجية (Passcode Lock Screen Overlay) -->
+    <div id="passcode-screen" class="passcode-overlay">
+        <div class="passcode-container">
+            <!-- أيقونة قفل صغيرة -->
+            <div class="lock-icon-wrapper">
+                <svg viewBox="0 0 24 24" width="24" height="24" class="lock-icon">
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" fill="currentColor"/>
+                </svg>
+            </div>
+            
+            <h1 class="passcode-status">أدخلي رمز المرور لمشاهدة الفيديو</h1>
+            <p class="passcode-status-en">Enter passcode to unlock video</p>
+            
+            <!-- مؤشر النقاط الـ 6 (6 PIN Dots) -->
+            <div id="pin-dots" class="pin-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            
+            <!-- لوحة المفاتيح الرقمية الدائرية (Numeric Keypad Key grid) -->
+            <div class="keypad">
+                <button class="key num-key" data-value="1">1</button>
+                <button class="key num-key" data-value="2">2</button>
+                <button class="key num-key" data-value="3">3</button>
+                
+                <button class="key num-key" data-value="4">4</button>
+                <button class="key num-key" data-value="5">5</button>
+                <button class="key num-key" data-value="6">6</button>
+                
+                <button class="key num-key" data-value="7">7</button>
+                <button class="key num-key" data-value="8">8</button>
+                <button class="key num-key" data-value="9">9</button>
+                
+                <button class="key action-key" id="key-clear">مسح</button>
+                <button class="key num-key" data-value="0">0</button>
+                <button class="key action-key" id="key-delete">
+                    <svg viewBox="0 0 24 24" width="20" height="20">
+                        <path d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-3 12.59L17.59 17 14 13.41 10.41 17 9 15.59 12.59 12 9 8.41 10.41 7 14 10.59 17.59 7 19 8.41 15.41 12 19 15.59z" fill="currentColor"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- شاشة الحظر للتفعيل اليدوي في المتصفحات الصارمة (Fallback click) -->
+    <div id="play-fallback" class="fallback-overlay hidden">
+        <button id="playback-trigger" class="fallback-btn">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+                <path d="M8 5v14l11-7z" fill="currentColor"/>
+            </svg>
+            <span>عرض الفيديو / Play Experience</span>
+        </button>
+    </div>
+
+    <!-- مشغل الفيديو بملء الشاشة بالكامل (Fullscreen Video Wrapper) -->
+    <div class="video-container">
+        <video id="bg-video" 
+               loop 
+               muted 
+               playsinline 
+               preload="auto"
+               disablepictureinpicture 
+               controlslist="nodownload noplaybackrate nofullscreen" 
+               ondragstart="return false;">
+            <source src="videos/intro.mp4" type="video/mp4">
+        </video>
+        <div class="video-darkener"></div>
+    </div>
+
+    <!-- زر التحكم بالصوت العائم الخفي (Floating Audio Toggle) -->
+    <div class="audio-toggle-zone hidden" id="audio-controls">
+        <button id="sound-toggle-btn" class="glass sound-btn is-muted" aria-label="كتم/تشغيل الصوت">
+            <svg id="icon-muted" class="sound-icon" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM19 12c0 2.82-1.49 5.29-3.7 6.64l1.1 1.1C19.79 17.97 21.5 15.19 21.5 12s-1.71-5.97-4.1-7.74l-1.1 1.1C18.51 6.71 19 9.18 19 12zM3 9v6h4l5 5V4L7 9H3zm13.12 1.44l-3.62 3.63 3.62 3.62 1.42-1.41-2.21-2.21 2.21-2.21-1.42-1.42z" fill="currentColor"/>
+                <path d="M3.41 2.59L2 4l18 18 1.41-1.41z" fill="currentColor"/>
+            </svg>
+            <svg id="icon-unmuted" class="sound-icon hidden" viewBox="0 0 24 24" width="20" height="20">
+                <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" fill="currentColor"/>
+            </svg>
+            <div class="audio-pulse-ring"></div>
+        </button>
+    </div>
+
+    <!-- كود التحكم والتشغيل -->
+    <script src="script.js"></script>
+</body>
+</html>

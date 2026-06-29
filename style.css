@@ -1,0 +1,415 @@
+/* 
+   ==========================================================================
+   Passcode + Minimalist Video Landing - Style System
+   ==========================================================================
+*/
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
+    font-family: 'Plus Jakarta Sans', 'Cairo', sans-serif;
+}
+
+.no-scroll {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* ==========================================================================
+   شاشة التحميل السوداء | Black Loading Screen
+   ========================================================================== */
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    background-color: #000000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.loader-ring {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.06);
+    border-radius: 50%;
+    border-top-color: rgba(255, 255, 255, 0.5);
+    animation: spin 0.9s linear infinite;
+}
+
+/* ==========================================================================
+   شاشة إدخال رمز المرور | Passcode Overlay Screen
+   ========================================================================== */
+.passcode-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: #000000;
+    z-index: 5000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.7s ease, visibility 0.7s ease;
+}
+
+.passcode-overlay.unlocked {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.passcode-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    width: 100%;
+    max-width: 340px;
+    padding: 20px;
+}
+
+/* أيقونة القفل */
+.lock-icon-wrapper {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* نصوص الوضع */
+.passcode-status {
+    font-family: 'Cairo', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    line-height: 1.5;
+    max-width: 260px;
+}
+
+.passcode-status-en {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.3);
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-top: -18px;
+}
+
+/* رسالة الخطأ */
+.error-msg {
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.82rem;
+    color: #f43f5e;
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    min-height: 20px;
+    margin-top: -18px;
+}
+
+.error-msg.show {
+    opacity: 1;
+}
+
+/* ==========================================================================
+   مؤشرات الأرقام الستة | PIN Dot Indicators
+   ========================================================================== */
+.pin-dots {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    justify-content: center;
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    background: transparent;
+    transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.dot.filled {
+    background: #ffffff;
+    border-color: #ffffff;
+    transform: scale(1.1);
+}
+
+.dot.error {
+    border-color: #f43f5e;
+    background: rgba(244, 63, 94, 0.4);
+}
+
+/* حركة الاهتزاز عند خطأ | Shake on wrong PIN */
+.pin-dots.shake {
+    animation: shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* ==========================================================================
+   لوحة المفاتيح الرقمية الدائرية | Numeric Keypad
+   ========================================================================== */
+.keypad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+    max-width: 290px;
+}
+
+.key {
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 1.4rem;
+    font-weight: 400;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease, transform 0.1s ease, border-color 0.15s ease;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.key:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.key:active {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(0.92);
+}
+
+/* أزرار المسح والحذف */
+.action-key {
+    font-family: 'Cairo', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.5);
+    background: transparent;
+    border-color: transparent;
+}
+
+.action-key:hover {
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ==========================================================================
+   شاشة الفيديو الكاملة | Video Container
+   ========================================================================== */
+.video-container {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background-color: #000000;
+}
+
+#bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.4s ease-in-out;
+}
+
+#bg-video.visible {
+    opacity: 1;
+}
+
+.video-darkener {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.08);
+    z-index: 11;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   زر كتم الصوت العائم | Floating Mute Button
+   ========================================================================== */
+.audio-toggle-zone {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 100;
+}
+
+.audio-toggle-zone.hidden {
+    display: none !important;
+}
+
+.sound-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.45);
+    outline: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.sound-btn:hover {
+    color: #ffffff;
+    background: rgba(0, 0, 0, 0.6);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.05);
+}
+
+.sound-btn:active .sound-icon {
+    transform: scale(0.85);
+}
+
+.audio-pulse-ring {
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: pulseGlow 2s infinite ease-out;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sound-btn.is-muted .audio-pulse-ring {
+    opacity: 0.5;
+}
+
+/* شاشة الحظر الاحتياطي | Fallback overlay */
+.fallback-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: #000000;
+    z-index: 9998;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fallback-overlay.hidden {
+    display: none !important;
+}
+
+.fallback-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    padding: 14px 24px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-family: 'Cairo', sans-serif;
+    font-weight: 500;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.fallback-btn:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: scale(1.04);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   حركات الإطارات الرئيسية | Keyframe Animations
+   ========================================================================== */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes shake {
+    10%, 90% { transform: translateX(-3px); }
+    20%, 80% { transform: translateX(5px); }
+    30%, 50%, 70% { transform: translateX(-5px); }
+    40%, 60% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+
+/* ==========================================================================
+   التجاوب مع الهواتف | Responsive Mobile
+   ========================================================================== */
+@media (max-width: 400px) {
+    .passcode-container {
+        gap: 22px;
+    }
+
+    .keypad {
+        gap: 12px;
+        max-width: 260px;
+    }
+
+    .pin-dots {
+        gap: 12px;
+    }
+
+    .dot {
+        width: 12px;
+        height: 12px;
+    }
+}
+
+@media (max-width: 768px) {
+    .audio-toggle-zone {
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .sound-btn {
+        width: 48px;
+        height: 48px;
+    }
+}
