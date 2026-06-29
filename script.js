@@ -25,7 +25,7 @@ const PASSCODE = "200408";
  * ضع ملف الفيديو بهذا الاسم داخل مجلد videos لتغيير الفيديو.
  * Replace the file inside the videos/ folder with the same name to swap the video.
  */
-const videoUrl = "videos.mp4";
+const videoUrl = "videos/intro.mp4";
 
 // ==========================================================================
 // ربط عناصر الواجهة | DOM Element References
@@ -154,12 +154,13 @@ function handleWrongPin() {
 // 3. تشغيل الفيديو بعد فتح الشاشة | Start Video After Unlock
 // ==========================================================================
 function startVideoPlayback() {
-    const playPromise = bgVideo.play();
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
-            bgVideo.classList.add('visible');
-            audioControls.classList.remove('hidden');
-        }).catch(() => {
+    bgVideo.play().then(() => {
+        bgVideo.classList.add('visible');
+        audioControls.classList.remove('hidden');
+    }).catch(() => {
+        playFallback.classList.remove('hidden');
+    });
+}
            
     }
 }
