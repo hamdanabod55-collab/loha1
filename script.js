@@ -160,12 +160,7 @@ function startVideoPlayback() {
             bgVideo.classList.add('visible');
             audioControls.classList.remove('hidden');
         }).catch(() => {
-            // المتصفح منع التشغيل التلقائي، عرض زر البدء اليدوي
-            playFallback.classList.remove('hidden');
-        });
-    } else {
-        bgVideo.classList.add('visible');
-        audioControls.classList.remove('hidden');
+           
     }
 }
 
